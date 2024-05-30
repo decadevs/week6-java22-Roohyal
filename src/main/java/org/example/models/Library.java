@@ -8,7 +8,6 @@ public class Library {
  private List<Book> books = new ArrayList<>();
 
  public static List<Person> peopleOnQueue = new LinkedList<>();
- public static Queue<Person> personQueue = new LinkedList<>();
 
 
  public Library(List<Book> books, List<Person> libraryUsersOnQueue) {

@@ -46,9 +46,9 @@ public class Main {
         System.out.println("**************************************************************");
 
         System.out.println("THIS IS WITH PRIORITY");
-        System.out.println(libraryService.borrowBook(book, librarian));
-        System.out.println(libraryService.borrowBook(book, librarian));
-        System.out.println(libraryService.borrowBook(book, librarian));
+        System.out.println(libraryService.giveBookOnPriority(book, librarian));
+        System.out.println(libraryService.giveBookOnPriority(book, librarian));
+        System.out.println(libraryService.giveBookOnPriority(book, librarian));
         System.out.println("**************************************************************");
 
 

@@ -17,22 +17,6 @@ public class Book {
         this.currentNoOfCopies = currentNoOfCopies;
     }
 
-// GETTER
-   public String getBookTitle() {
-       return bookTitle;
-   }
-
-  public boolean isAvailable() {
-      return isAvailable;}
-
-   public int getCurrentNoOfCopies() {
-       return currentNoOfCopies;
-   }
-// SETTERS
-   public void setCurrentNoOfCopies(int currentNoOfCopies) {
-       this.currentNoOfCopies = currentNoOfCopies;
-   }
- // TO STRING
     @Override
     public String toString() {
         return "Book{" +

@@ -35,20 +35,12 @@ public class LibraryServiceImpl implements LibraryService {
 
  // TO Borrow A Book
     @Override
-    public String borrowBook( Book bookTitle, Person librarian) {
+    public String giveBookOnPriority( Book bookTitle, Person librarian) {
 
        peopleOnQueue.sort(Comparator.comparing(Person::getRole));
-        return Optional.ofNullable(!peopleOnQueue.isEmpty() ? peopleOnQueue.remove(0) : null)
-                .map(person -> {
-                    if (bookTitle.getCurrentNoOfCopies() > 0) {
-                        bookTitle.setCurrentNoOfCopies(bookTitle.getCurrentNoOfCopies() - 1);
-                        return person.getFullName() + " has borrowed " + bookTitle.getBookTitle() + " and it was issued by " + librarian.getFullName();
-                    } else {
-                        peopleOnQueue.add(0, person); // Add person back to the front of the list
-                        return "Book Taken";
-                    }
-                })
-                .orElse("No one is on the Queue");
+
+        return this.giveBooks( bookTitle,librarian);
+
 
     }
 
@@ -58,8 +50,14 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public String getBookOnFirstCome(Book bookTitle, Person librarian) {
+    public String giveBookOnFirstCome(Book bookTitle, Person librarian) {
 
+
+      return this.giveBooks(bookTitle,librarian);
+    }
+
+
+    private String giveBooks(Book bookTitle, Person librarian) {
         return Optional.ofNullable(!peopleOnQueue.isEmpty() ? peopleOnQueue.remove(0) : null)
                 .map(person -> {
                     if (bookTitle.getCurrentNoOfCopies() > 0) {
@@ -71,6 +69,7 @@ public class LibraryServiceImpl implements LibraryService {
                     }
                 })
                 .orElse("No one is on the Queue");
+
 
     }
 

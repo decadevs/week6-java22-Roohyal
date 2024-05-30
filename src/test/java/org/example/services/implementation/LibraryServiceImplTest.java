@@ -5,7 +5,6 @@ import org.example.models.Book;
 import org.example.models.Library;
 import org.example.models.Person;
 import org.example.enums.Role;
-import org.example.services.implementation.LibraryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,21 +46,21 @@ class LibraryServiceImplTest {
     }
 
     @Test
-    void testBorrowBook_BookAvailable() {
+    void testGiveBook_BookOnPriorityAvailable() {
         queue.add(person1);
         queue.add(person2);
 
-        String result = libraryService.borrowBook(bookAvailable, librarian);
+        String result = libraryService.giveBookOnPriority(bookAvailable, librarian);
         assertEquals("John Doe has borrowed Available Book and it was issued by Libby Library", result);
         assertEquals(4, bookAvailable.getCurrentNoOfCopies());
     }
 
     @Test
-    void testBorrowBook_BookNotAvailable() {
+    void testGiveBook_BookOnPriorityNotAvailable() {
         queue.add(person1);
         queue.add(person2);
 
-        String result = libraryService.borrowBook(bookNotAvailable, librarian);
+        String result = libraryService.giveBookOnPriority(bookNotAvailable, librarian);
         assertEquals("Book Taken", result);
         assertEquals(0, bookNotAvailable.getCurrentNoOfCopies());
     }
@@ -78,39 +77,39 @@ class LibraryServiceImplTest {
     }
 
     @Test
-    void testGetBookOnFirstCome_BookAvailable() {
+    void testGiveBookOnFirstCome_BookAvailable() {
         queue.add(person1);
         queue.add(person2);
 
-        String result = libraryService.getBookOnFirstCome(bookAvailable, librarian);
+        String result = libraryService.giveBookOnFirstCome(bookAvailable, librarian);
         assertEquals("John Doe has borrowed Available Book and it was issued by Libby Library", result);
         assertEquals(4, bookAvailable.getCurrentNoOfCopies());
     }
 
     @Test
-    void testGetBookOnFirstCome_BookNotAvailable() {
+    void testGiveBookOnFirstCome_BookNotAvailable() {
         queue.add(person1);
         queue.add(person2);
 
-        String result = libraryService.getBookOnFirstCome(bookNotAvailable, librarian);
+        String result = libraryService.giveBookOnFirstCome(bookNotAvailable, librarian);
         assertEquals("Book Taken", result);
         assertEquals(0, bookNotAvailable.getCurrentNoOfCopies());
     }
     @Test
-    void testBorrowBook_PriorityQueue() {
+    void testGiveBook_OnPriority_PriorityQueue() {
         // Add people to the queue
         libraryService.addToQueueOnFirstCome(person1);  // USER
         libraryService.addToQueueOnFirstCome(person2);  // LIBRARIAN
 
         // Borrow the book
-        String result = libraryService.borrowBook(bookAvailable, librarian);
+        String result = libraryService.giveBookOnPriority(bookAvailable, librarian);
 
         // Assert the teacher gets the book first, not the students
         assertEquals("John Doe has borrowed Available Book and it was issued by Libby Library", result);
         assertEquals(4, bookAvailable.getCurrentNoOfCopies());
 
         // Borrow the book again to see if the senior student gets it next
-        result = libraryService.borrowBook(bookAvailable, librarian);
+        result = libraryService.giveBookOnPriority(bookAvailable, librarian);
         assertEquals("Jane Smith has borrowed Available Book and it was issued by Libby Library", result);
         assertEquals(3, bookAvailable.getCurrentNoOfCopies());
     }

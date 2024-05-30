@@ -24,25 +24,7 @@ import org.example.enums.Role;
      }
 
     //GETTERS
-   public String getFullName() {
-      return fullName;
-    }
 
-    public int getAge() {
-        return age;
-   }
-
-     public String getId() {
-        return id;
-    }
-
-    public Gender getGender() {
-         return gender;
-    }
-
-  public Role getRole() {
-     return role;
-    }
   //TO STRING
      @Override
      public String toString() {
