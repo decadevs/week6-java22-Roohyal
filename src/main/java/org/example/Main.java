@@ -52,11 +52,11 @@ public class Main {
         System.out.println("**************************************************************");
 
 
-        System.out.println("THIS IS WITHOUT PRIORITY");
-        System.out.println(libraryService.getBookOnFirstCome(book1,librarian));
-        System.out.println(libraryService.getBookOnFirstCome(book1,librarian));
-        System.out.println(libraryService.getBookOnFirstCome(book1,librarian));
-        System.out.println("****************************************************************");
+//        System.out.println("THIS IS WITHOUT PRIORITY");
+//        System.out.println(libraryService.getBookOnFirstCome(book1,librarian));
+//        System.out.println(libraryService.getBookOnFirstCome(book1,librarian));
+//        System.out.println(libraryService.getBookOnFirstCome(book1,librarian));
+//        System.out.println("****************************************************************");
 
 
     }

@@ -96,4 +96,22 @@ class LibraryServiceImplTest {
         assertEquals("Book Taken", result);
         assertEquals(0, bookNotAvailable.getCurrentNoOfCopies());
     }
+    @Test
+    void testBorrowBook_PriorityQueue() {
+        // Add people to the queue
+        libraryService.addToQueueOnFirstCome(person1);  // USER
+        libraryService.addToQueueOnFirstCome(person2);  // LIBRARIAN
+
+        // Borrow the book
+        String result = libraryService.borrowBook(bookAvailable, librarian);
+
+        // Assert the teacher gets the book first, not the students
+        assertEquals("John Doe has borrowed Available Book and it was issued by Libby Library", result);
+        assertEquals(4, bookAvailable.getCurrentNoOfCopies());
+
+        // Borrow the book again to see if the senior student gets it next
+        result = libraryService.borrowBook(bookAvailable, librarian);
+        assertEquals("Jane Smith has borrowed Available Book and it was issued by Libby Library", result);
+        assertEquals(3, bookAvailable.getCurrentNoOfCopies());
+    }
 }
