@@ -18,7 +18,7 @@ public class LibraryServiceImpl implements LibraryService {
         peopleOnQueue.add(person);
         // Check if the book is available
         if (!book.isAvailable()) {
-            return "Book is not Available";
+            return person.getFullName() + " has requested for " + book.getBookTitle() + " but it is currently unavailable.";
         }
         // Process the queue using Stream API
         Optional<String> result = peopleOnQueue.stream()

@@ -17,7 +17,7 @@ public class Library {
  }
 
 
- public List<Person> getPeopleOnQueue() {
+ public static List<Person> getPeopleOnQueue() {
   return peopleOnQueue;
  }
 

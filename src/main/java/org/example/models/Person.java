@@ -3,6 +3,7 @@ import lombok.Getter;
 import org.example.enums.Gender;
 import org.example.enums.Role;
 @Getter
+
  public class Person {
     private String fullName;
     private int age;
@@ -26,19 +27,19 @@ import org.example.enums.Role;
    public String getFullName() {
       return fullName;
     }
-//
-//     public int getAge() {
-//         return age;
-//     }
-//
-//     public String getId() {
-//         return id;
-//     }
-//
-//     public Gender getGender() {
-//         return gender;
-//     }
-//
+
+    public int getAge() {
+        return age;
+   }
+
+     public String getId() {
+        return id;
+    }
+
+    public Gender getGender() {
+         return gender;
+    }
+
   public Role getRole() {
      return role;
     }

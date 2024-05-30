@@ -1,37 +1,99 @@
 package org.example.services.implementation;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Test;
 
 import org.example.enums.Gender;
-import org.example.enums.Role;
 import org.example.models.Book;
+import org.example.models.Library;
 import org.example.models.Person;
-
+import org.example.enums.Role;
+import org.example.services.implementation.LibraryServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.*;
+
 
 class LibraryServiceImplTest {
-    Person person = new Person("Tobi Bakre", 18,"S28", Gender.MALE, Role.SENIOR_STUDENT);
-    Book book = new Book("Half of a Yellow Sun", true,2);
-    Person librarian = new Person("Royal Mathias",32,"L28",Gender.FEMALE,Role.LIBRARIAN);
 
-    LibraryServiceImpl libraryService = new LibraryServiceImpl();
+    private LibraryServiceImpl libraryService;
+    private Person person1;
+    private Person person2;
+    private Person librarian;
+    private Book bookAvailable;
+    private Book bookNotAvailable;
+    private List<Person> queue;
 
-
-    @Test
-    void testRequestBookWhenBookIsAvailable() {
-        String result = libraryService.requestBook(person,book);
-        assertEquals("Tobi Bakre Has requested for Half of a Yellow Sun", result);
+    @BeforeEach
+    void setUp() {
+        libraryService = new LibraryServiceImpl();
+        person1 = new Person("John Doe", 25, "ID123", Gender.MALE, Role.TEACHER);
+        person2 = new Person("Jane Smith", 30, "ID124", Gender.FEMALE, Role.SENIOR_STUDENT);
+        librarian = new Person("Libby Library", 45, "ID125", Gender.FEMALE, Role.LIBRARIAN);
+        bookAvailable = new Book("Available Book", true, 5);
+        bookNotAvailable = new Book("Unavailable Book", false, 0);
+        queue = new LinkedList<>();
+        Library.setPeopleOnQueue(queue);
     }
 
     @Test
-    void borrowBook() {
-        assertNotNull(libraryService.borrowBook(book,librarian));
+    void testRequestBook_BookAvailable() {
+        String result = libraryService.requestBook(person1, bookAvailable);
+        assertEquals("John Doe has requested and received Available Book", result);
     }
 
+    @Test
+    void testRequestBook_BookNotAvailable() {
+        String result = libraryService.requestBook(person1, bookNotAvailable);
+        assertEquals("John Doe has requested for Unavailable Book but it is currently unavailable.", result);
+    }
 
     @Test
-    void getBookOnFirstCome() {
-        assertNotNull(libraryService.getBookOnFirstCome(book,librarian));
+    void testBorrowBook_BookAvailable() {
+        queue.add(person1);
+        queue.add(person2);
+
+        String result = libraryService.borrowBook(bookAvailable, librarian);
+        assertEquals("John Doe has borrowed Available Book and it was issued by Libby Library", result);
+        assertEquals(4, bookAvailable.getCurrentNoOfCopies());
+    }
+
+    @Test
+    void testBorrowBook_BookNotAvailable() {
+        queue.add(person1);
+        queue.add(person2);
+
+        String result = libraryService.borrowBook(bookNotAvailable, librarian);
+        assertEquals("Book Taken", result);
+        assertEquals(0, bookNotAvailable.getCurrentNoOfCopies());
+    }
+
+    @Test
+    void testAddToQueueOnFirstCome() {
+        libraryService.addToQueueOnFirstCome(person1);
+        libraryService.addToQueueOnFirstCome(person2);
+
+        List<Person> peopleOnQueue = Library.getPeopleOnQueue();
+        assertEquals(2, peopleOnQueue.size());
+        assertEquals(person1, peopleOnQueue.get(0));
+        assertEquals(person2, peopleOnQueue.get(1));
+    }
+
+    @Test
+    void testGetBookOnFirstCome_BookAvailable() {
+        queue.add(person1);
+        queue.add(person2);
+
+        String result = libraryService.getBookOnFirstCome(bookAvailable, librarian);
+        assertEquals("John Doe has borrowed Available Book and it was issued by Libby Library", result);
+        assertEquals(4, bookAvailable.getCurrentNoOfCopies());
+    }
+
+    @Test
+    void testGetBookOnFirstCome_BookNotAvailable() {
+        queue.add(person1);
+        queue.add(person2);
+
+        String result = libraryService.getBookOnFirstCome(bookNotAvailable, librarian);
+        assertEquals("Book Taken", result);
+        assertEquals(0, bookNotAvailable.getCurrentNoOfCopies());
     }
 }
